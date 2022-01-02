@@ -12,8 +12,10 @@
 #'
 #' @importFrom dplyr mutate
 #' @importFrom plyr llply .
+#' @importFrom purrr map_chr
 #' @importFrom rlang enexprs
 #' @importFrom stats D setNames
+#' @importFrom stringr str_c
 #'
 #' @export
 #'
@@ -48,16 +50,14 @@ mutate_with_error <- function(.data, .arg, ...) {
     stop("mutate() arguments should not be string.")
   }
 
-  .output_exprs <- .user_exprs %>%
-    append(
+    .output_exprs <- append(
+      .user_exprs,
       .user_exprs %>%
         llply(function(.each_expr) {
-          .each_expr %>% all.vars() %>%
-            sapply(function(v) {   # expression to compute new variable errors
-              dfdp = deparse(D(.each_expr, v))
-              sprintf('(d%s*(%s))^2', v, dfdp)
-            }) %>%
-            paste(collapse='+') %>%
+          .each_expr %>%
+            all.vars() %>%
+            map_chr(~ sprintf('(d%s*(%s))^2', ., deparse(D(.each_expr, .)))) %>%
+            str_c(collapse = '+') %>%
             sprintf('sqrt(%s)', .) %>%
             str2lang()
         }) %>%
@@ -69,31 +69,3 @@ mutate_with_error <- function(.data, .arg, ...) {
 
   .data %>% mutate(!!! .output_exprs)
 }
-# mutate_with_error <- function(.data, f) {
-#   # require(dplyr)
-#   #https://www.r-bloggers.com/easy-error-propagation-in-r/
-#   exprs = list(
-#     # expression to compute new variable values
-#     deparse(f[[3]]),
-#
-#     # expression to compute new variable errors
-#     sapply(all.vars(f[[3]]), function(v) {
-#       dfdp = deparse(D(f[[3]], v))
-#       sprintf('(d%s*(%s))^2', v, dfdp)
-#     }) %>%
-#       paste(collapse='+') %>%
-#       sprintf('sqrt(%s)', .)
-#   )
-#   names(exprs) = c(
-#     deparse(f[[2]]),
-#     sprintf('d%s', deparse(f[[2]]))
-#   )
-#
-#   #.data %>%
-#   #  # the standard evaluation alternative of mutate()
-#   #  mutate_(.dots=exprs) %>%
-#   #  suppressWarnings()
-#   .data[names(exprs)] <- lapply(exprs , function(x) {
-#     eval(parse(text= x), envir = .data)
-#   })
-# }
