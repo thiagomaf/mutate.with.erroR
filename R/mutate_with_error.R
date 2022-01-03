@@ -84,7 +84,7 @@ mutate_with_error <- function(.data, ..., echo = FALSE) {
   .output_exprs <- append(
     .temp_exprs,     # user input expression
     .temp_exprs %>%  # error propagation expression
-      plyr::llply(function(.each_expr) {
+      purrr::map(.f = (function(.each_expr) {
         .each_expr <- .each_expr %>%
           str2expression()
         
@@ -95,7 +95,7 @@ mutate_with_error <- function(.data, ..., echo = FALSE) {
           ) %>%
           stringr::str_c(collapse = '+') %>%
           sprintf('sqrt(%s)', .)
-      }) %>%
+      })) %>% 
       setNames(paste0("d", names(.temp_exprs)))
   ) %>% 
     purrr::map(.f = str2lang)
