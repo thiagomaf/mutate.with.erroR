@@ -24,6 +24,9 @@ devtools::install_github("thiagomaf/mutate.with.erroR")
 Below we create a `data.frame` with two variables `A` and `B` (representing the mean of the `disp` and `hp` columns of the `mtcars` dataset) and their respective standard errors `dA` and `dB` (i.e. `sd(x)/sqrt(length(x))`). The prefix 'd' is used to indicate the error measures associated to any given variable. `mutate_with_error()` is used as `mutate()` - calculations are indicated as unquoted expressions and are separated by comma. `mutate_with_error()` will return the estimates calculated and their errors.
 
 ``` r
+library(dplyr)
+library(mutate.with.erroR)
+
 mtcars %>%
   with({
     data.frame(
