@@ -4,16 +4,16 @@
 \alias{mutate_with_error}
 \title{Create, (delete) and modify numeric columns with Gaussian error propagation}
 \usage{
-mutate_with_error(.data, .arg, ...)
+mutate_with_error(.data, ..., echo = FALSE)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a
 lazy data frame (e.g. from dbplyr or dtplyr).}
 
-\item{.arg}{Name-value pairs. The name gives the name of the column in the
+\item{...}{Name-value pairs. The name gives the name of the column in the
 output.}
 
-\item{...}{Same as \code{.arg}}
+\item{echo}{.}
 }
 \value{
 An object of the same type as \code{.data}. The output has the following
@@ -44,5 +44,12 @@ mtcars \%>\%
       dB =   sd(hp, na.rm = TRUE)/sqrt(length(hp))
     )
   }) \%>\%
-  mutate_with_error(C = A + B, D = A / B)
+  #mutate_with_error(C = A + B, D = A / B)
+  mutate_with_error(
+    C = A + B,
+    D ~ A / B,
+    "E = A + B",
+    "G ~ A / B",
+    as.formula("H ~ A / B")
+  )
 }
