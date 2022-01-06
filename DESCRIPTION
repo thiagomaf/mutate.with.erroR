@@ -1,11 +1,11 @@
 Package: mutate.with.erroR
 Type: Package
-Title: Mutate with Gaussian error propagation - mutate_with_error()
+Title: Do arithmetic calculations with Gaussian error propagation - mutate_with_error()
 Version: 0.1.0
 Author: Thiago Alexandre Moraes
 Maintainer: Thiago Alexandre Moraes <thiago.maf@gmail.com>
 Description: Mutate data.frames numeric columns doing Gaussian error propagation
-    in parallel.
+    in parallel. Based on the dplyr::mutate().
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
