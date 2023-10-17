@@ -8,7 +8,7 @@ The goal of `{mutate.with.erroR}` is to create a public repository for maintaini
 
 `mutate_with_error()` creates or modifies `numeric` columns with associated Gaussian error propagation: it does  mathematical calculations as instructed by the user, creates an expression describing the Gaussian error propagation calculation and returns both values (i.e. the estimate `X` and the propagated error `dX`). All columns used in a calculation should be provided with an associated error measure (in general `standard error`).
 
-Normally this function is used to do mathematical calculations between  average values of variables with associated errors. For example, when one wants to calculate the speed of an object, one measures the distance (`S`) that the object moved (which has an error; e.g. graduation on the ruler) and the time (`T`) it took to move along this distance (this also has an error; e.g. only measure down to seconds). The speed calculated as `S/T` will also have an associated error which reflects the combined errors of `S` and `T`. Gaussian error propagation uses calculus to achieve this propagated error estimation.
+Normally this function is used to do mathematical calculations between  average values of variables with associated errors. For example, when one wants to calculate the speed of an object, one measures the distance (`S`) that the object moved (which has an error; e.g. graduation on the ruler) and the time (`T`) it took to move along this distance (this also has an error; e.g. only measure down to seconds). The speed `V` calculated as `S/T` will also have an associated error which reflects the combined errors of `S` and `T`. Gaussian error propagation uses calculus to achieve this propagated error estimation.
 
 ## Installation
 
